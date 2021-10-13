@@ -15,19 +15,20 @@ class Solution {
     boolean[] checkCol;
     String[][] rel;
     int answer = 0;
-    List<String> key = new ArrayList<>();
+    List<String> keys = new ArrayList<>();
 
-    void dfs(int idx){
-        if(idx == colN){
-            //TODO 연산
-            if(calKey()) answer++;
+    void dfs(int idx, int cnt, int hap) {
+        if (hap == cnt) {
+            if (calKey()) answer++;
             return;
-        };
+        }
+        ;
+        if (idx == colN) return;
 
         for (int i = idx; i < colN; i++) {
-            if(checkCol[i] == false){
+            if (checkCol[i] == false) {
                 checkCol[i] = true;
-                dfs(i+1);
+                dfs(i + 1, cnt, hap + 1);
                 checkCol[i] = false;
             }
         }
@@ -35,32 +36,53 @@ class Solution {
 
     private boolean calKey() {
         List<Integer> arl = new ArrayList<>();
-
-
         for (int i = 0; i < checkCol.length; i++) {
-            if(checkCol[i] == true){
+            if (checkCol[i] == true) {
                 arl.add(i);
             }
         }
-        System.out.println("arl.toString() = " + arl.toString());
-        if(arl.size() == 0 )return false;
-        StringBuilder sb = new StringBuilder();
+        if (arl.size() == 0) return false;
         Set<String> hs = new HashSet<>();
         for (int i = 0; i < rel.length; i++) {
+            StringBuilder sb = new StringBuilder();
             for (Integer integer : arl) {
                 sb.append(rel[i][integer]);
                 sb.append("_");
             }
             String s = sb.toString();
-            if(hs.contains(s)) return false;
+            if (hs.contains(s)) return false;
             else hs.add(s);
         }
+        String makedKey = makeKey(arl);
+        for (String s : keys) {
+            boolean[] check = new boolean[s.length()];
+            for (int i = 0; i < s.length(); i++) {
+                for (int j = 0; j < makedKey.length(); j++) {
+                    if(makedKey.charAt(j) == s.charAt(i)){
+                        check[i] = true;
+                    }
+                }
+            }
+            int flag= 0;
+            for (int i = 0; i < s.length(); i++) {
+                if(check[i] == true) flag++;
+            }
+            if(flag==s.length()) return false;
+        }
+        keys.add(makedKey);
         return true;
+    }
+
+    private String makeKey(List<Integer> arl) {
+        StringBuilder sb = new StringBuilder();
+        for (Integer integer : arl) {
+            sb.append(integer);
+        }
+        return sb.toString();
     }
 
 
     public int solution(String[][] relation) {
-        int answer = 0;
         colN = relation[0].length;
         checkCol = new boolean[colN];
         rel = new String[relation.length][relation[0].length];
@@ -70,18 +92,22 @@ class Solution {
                 rel[i][j] = relation[i][j];
             }
         }
-
-
-        dfs(0);
-
+        for (int i = 1; i <= colN; i++) {
+            dfs(0, i, 0);
+        }
         return answer;
     }
 
     public static void main(String[] args) {
         Solution s = new Solution();
-        String[][] a = new String[][]{{"100","ryan","music","2"},{"200","apeach","math","2"},{"300","tube","computer","3"},{"400","con","computer","4"},{"500","muzi","music","3"},{"600","apeach","music","2"},
-        {"100","ryan","music","2"},{"200","apeach","math","2"},{"300","tube","computer","3"},{"400","con","computer","4"},{"500","muzi","music","3"},{"600","apeach","music","2"}};
-        ;
+//        String[][] a = new String[][]{{"100", "ryan", "music", "2"},
+//                {"200", "apeach", "math", "2"}, {"300", "tube", "computer", "3"},
+//                {"400", "con", "computer", "4"}, {"500", "muzi", "music", "3"},
+//                {"600", "apeach", "music", "2"}};
+        String[][] a = { {"a","1","aaa","c","ng"},
+                {"a","1","bbb","e","g"},
+                {"c","1","aaa","d","ng"},
+                {"d","2","bbb","d","ng"}};
         int solution = s.solution(a);
         System.out.println("solution = " + solution);
     }
