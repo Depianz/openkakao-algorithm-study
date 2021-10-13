@@ -1,4 +1,4 @@
-package week1.프로그래머스_후보키_Solving;
+package week1.프로그래머스_후보키;
 
 
 import java.util.ArrayList;
@@ -8,7 +8,8 @@ import java.util.Set;
 
 /**
  * dfs로 구현하는게 좋을듯
- * o(n) = 2^8 * 20
+ * o(n) = 2^8 * 20 *+++
+ * 리팩토링 필요
  */
 class Solution {
     int colN;
