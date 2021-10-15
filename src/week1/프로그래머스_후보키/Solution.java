@@ -23,7 +23,6 @@ class Solution {
             if (calKey()) answer++;
             return;
         }
-        ;
         if (idx == colN) return;
 
         for (int i = idx; i < colN; i++) {
@@ -59,16 +58,16 @@ class Solution {
             boolean[] check = new boolean[s.length()];
             for (int i = 0; i < s.length(); i++) {
                 for (int j = 0; j < makedKey.length(); j++) {
-                    if(makedKey.charAt(j) == s.charAt(i)){
+                    if (makedKey.charAt(j) == s.charAt(i)) {
                         check[i] = true;
                     }
                 }
             }
-            int flag= 0;
+            int flag = 0;
             for (int i = 0; i < s.length(); i++) {
-                if(check[i] == true) flag++;
+                if (check[i] == true) flag++;
             }
-            if(flag==s.length()) return false;
+            if (flag == s.length()) return false;
         }
         keys.add(makedKey);
         return true;
@@ -86,13 +85,8 @@ class Solution {
     public int solution(String[][] relation) {
         colN = relation[0].length;
         checkCol = new boolean[colN];
-        rel = new String[relation.length][relation[0].length];
+        rel = relation;
 
-        for (int i = 0; i < relation.length; i++) {
-            for (int j = 0; j < relation[0].length; j++) {
-                rel[i][j] = relation[i][j];
-            }
-        }
         for (int i = 1; i <= colN; i++) {
             dfs(0, i, 0);
         }
@@ -101,14 +95,10 @@ class Solution {
 
     public static void main(String[] args) {
         Solution s = new Solution();
-//        String[][] a = new String[][]{{"100", "ryan", "music", "2"},
-//                {"200", "apeach", "math", "2"}, {"300", "tube", "computer", "3"},
-//                {"400", "con", "computer", "4"}, {"500", "muzi", "music", "3"},
-//                {"600", "apeach", "music", "2"}};
-        String[][] a = { {"a","1","aaa","c","ng"},
-                {"a","1","bbb","e","g"},
-                {"c","1","aaa","d","ng"},
-                {"d","2","bbb","d","ng"}};
+        String[][] a = {{"a", "1", "aaa", "c", "ng"},
+                {"a", "1", "bbb", "e", "g"},
+                {"c", "1", "aaa", "d", "ng"},
+                {"d", "2", "bbb", "d", "ng"}};
         int solution = s.solution(a);
         System.out.println("solution = " + solution);
     }
