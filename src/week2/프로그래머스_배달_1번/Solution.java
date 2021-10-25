@@ -32,16 +32,24 @@ class Solution {
             int min = Integer.MAX_VALUE;
             int min_idx = -1;
             for (int j = 1; j <= N; j++) {
+                // 1번 노드와 연결된 것 중, 가장 작은 거리(간선값 합)을 가진 것 찾기
                 if (!check[j] && dist[j] < Integer.MAX_VALUE) {
                     if (dist[j] < min) {
+                        // min 에 거리 저장하고
+                        // min_idx 에 가장 작은 거리(간선값 합) 가진 노드 저장
                         min = dist[j];
                         min_idx = j;
                     }
                 }
             }
+
             check[min_idx] = true;
+            // 어떠한 점 A에 대해,
+            // (1 -> min_idx 거리 + min_idx -> A) 거리와
+            //  1 -> A 거리 비교
             for (int j = 1; j <= N; j++) {
                 if (!check[j] && adj[min_idx][j] != 0) {
+                    // (1 -> min_idx 거리 + min_idx -> A) 거리가 더 짧은 경우, dist 배열 (1에서 부터 노드까지 거리) 업데이트 진행
                     dist[j] = Math.min(dist[j], dist[min_idx] + adj[min_idx][j]);
                 }
             }
