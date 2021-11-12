@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class Main_Solving {
+public class Main {
 
     public static void main(String[] args) throws IOException {
 
@@ -19,9 +19,10 @@ public class Main_Solving {
         int answer = 0;
         int[] edgeCount = new int[n+1];
         int[] time = new int[n+1];
+        int[] cache = new int[n+1];
         List[] graph = new ArrayList[n+1];
         for (int i = 0; i <= n; i++) {
-            graph[i] = new ArrayList();
+            graph[i] = new ArrayList<Integer>();
         }
 
         for (int i = 1; i <= n; i++) {
@@ -41,14 +42,23 @@ public class Main_Solving {
             if(edgeCount[i] ==0){
                 q.add(i);
             }
+            cache[i] = time[i];
         }
 
         while(!q.isEmpty()){
             int cur = q.poll();
-
+            for (int i = 0; i < graph[cur].size(); i++) {
+                int nxt = (int) graph[cur].get(i);
+                if(--edgeCount[nxt] == 0) q.add(nxt);
+                cache[nxt] = Math.max(cache[nxt], cache[cur] + time[nxt]);
+            }
         }
 
+        for (int i = 1; i <= n; i++) {
+            answer = Math.max(answer,cache[i]);
+        }
 
+        System.out.println(answer);
         br.close();
         bw.close();
     }
