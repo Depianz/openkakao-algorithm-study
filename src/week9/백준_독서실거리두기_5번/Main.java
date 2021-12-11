@@ -20,22 +20,22 @@ public class Main {
         t = Integer.parseInt(st.nextToken()); // 예약 개수
         p = Integer.parseInt(st.nextToken()); // 민규가 좋아하는 좌석 번호
         time = new Time[t];
-        first = hour2Min("9");
-        last = hour2Min("21");
+        first = hourToMin("9");
+        last = hourToMin("21");
 
-        isSeated = new boolean[last + 100][n + 1]; // ex) isSeated[600][3] = true; 600분에 2번좌석이 차있다.
+        isSeated = new boolean[last + 100][n + 1]; //
 
         int start, end;
         for (int i = 0; i < t; i++) {
             st = new StringTokenizer(br.readLine());
             String from = st.nextToken();
             start = 0;
-            start += hour2Min(from.substring(0,2));
+            start += hourToMin(from.substring(0,2));
             start += Integer.parseInt(from.substring(2,4));
 
             String to = st.nextToken();
             end = 0;
-            end += hour2Min(to.substring(0, 2));
+            end += hourToMin(to.substring(0, 2));
             end += Integer.parseInt(to.substring(2, 4));
 
             time[i] = new Time(start, end);
@@ -75,7 +75,7 @@ public class Main {
         for (int i = 1; i <= n; i++) {
             if (!isSeated[min][i]) {
                 int dist = getDistance(min, i);
-                if (maxDist < dist) { // 가장 멀리 앉을 수 있는 곳을 반환 할 거야
+                if (maxDist < dist) { // 가장 멀리 앉을 수 있는 곳
                     maxDist = dist;
                     pos = i;
                 }
@@ -98,7 +98,7 @@ public class Main {
         }
     }
 
-    static int hour2Min(String s) {
+    static int hourToMin(String s) {
         int num = Integer.parseInt(s);
         return num * 60;
     }
